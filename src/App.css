@@ -244,29 +244,42 @@ body {
 }
 
 /* Dress Code */
-.dress-code {
-  background: var(--color-accent-light);
-  padding: 2rem;
-  border-radius: 4px;
-  max-width: 450px;
+/* Dress Code - 本来のデザインに合わせた修正 */
+.dress-code-section {
+  text-align: center;
+  padding: 2rem 0;
+  max-width: 500px;
   margin: 0 auto;
 }
 
-.dress-icon {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+.dress-icon-container {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1.5rem;
 }
 
-.dress-code h3 {
+.dress-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dress-title {
+  font-family: var(--font-mono);
+  /* 英字タイトルはMonoフォント */
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--color-text);
+  margin-bottom: 1.2rem;
+}
+
+.dress-text {
   font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.dress-code p {
-  font-size: 0.85rem;
-  color: var(--color-text-light);
-  line-height: 1.8;
+  color: var(--color-text);
+  /* 文字色を少し濃く */
+  line-height: 2;
+  font-weight: 300;
 }
 
 /* Access Section */
@@ -440,6 +453,257 @@ body {
 
 .submit-btn:hover {
   background: #5a7d8d;
+}
+
+.guest-block {
+  position: relative;
+  /* 削除ボタンの基準点 */
+  background: #fff;
+  border: 1px solid var(--color-border);
+  padding: 25px 20px 20px;
+  /* 上部に少し余裕を持たせる */
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.remove-guest-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #ffb3b3;
+  background: #fff5f5;
+  color: #e63946;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.remove-guest-btn:hover {
+  background: #e63946;
+  color: #fff;
+  border-color: #e63946;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.required::after {
+  content: " *";
+  color: #e63946;
+}
+
+/* チェックボックス・アレルギー周り */
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.allergy-section,
+.dietary-options {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.allergy-item {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #ccc;
+}
+
+.dietary-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* 追加ボタン */
+.add-guest-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.add-btn {
+  flex: 1;
+  padding: 0.8rem;
+  background: white;
+  border: 1px dashed var(--color-accent);
+  color: var(--color-accent);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-btn-mini {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.radio-group-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* フォーム全体の最後にある共通入力エリア */
+.form-footer-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--color-border);
+}
+
+/* スペル・ミドルネーム用の3列レイアウト */
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* アレルギー内のオプションを横並びに */
+.allergy-options {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+  font-size: 0.8rem;
+}
+
+/* 入力エラー時のスタイル（ブラウザ標準のバリデーション） */
+input:invalid {
+  border-color: #ffb3b3;
+}
+
+input:invalid:focus {
+  border-color: #e63946;
+}
+
+/* すべての入力欄のスタイルを統一 */
+.rsvp-form input[type="text"],
+.rsvp-form input[type="email"],
+.rsvp-form input[type="time"] {
+  width: 100%;
+  padding: 12px 15px;
+  /* ここは既存の入力欄の余白に合わせて調整してください */
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  /* 角丸を他の欄と揃える */
+  box-sizing: border-box;
+  /* paddingが幅を突き破らないように固定 */
+  display: block;
+}
+
+/* メールアドレス入力欄があるフッターセクションの幅を確保 */
+.form-footer-section {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.form-footer-section .form-group {
+  width: 100%;
+}
+
+/* 食事配慮セクションのスタイル */
+.dietary-main-checkbox {
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+.dietary-detail-section {
+  background: #f9f9f9;
+  /* 少し背景色をつけてセクションを明確に */
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.dietary-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dietary-option-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.dietary-option-label input[type="checkbox"] {
+  margin-top: 4px;
+}
+
+.dietary-other-input {
+  margin-top: 1rem;
+}
+
+.rsvp-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* モバイル表示で文字が詰まらないように調整 */
+@media (max-width: 600px) {
+  .dietary-detail-section {
+    padding: 1rem;
+  }
+}
+
+.radio-group-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px 0;
+}
+
+.radio-group-vertical label {
+  font-weight: normal !important;
+  /* 選択肢の文字は細く */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.child-fields {
+  background: #fdfaf5;
+  /* お子様セクションと分かりやすく少し色を変えてもOK */
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px dashed var(--color-primary);
 }
 
 /* Footer */

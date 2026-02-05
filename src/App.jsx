@@ -1,5 +1,6 @@
 import './App.css'
 
+
 function App() {
   return (
     <div className="wedding-site">
@@ -19,7 +20,7 @@ function App() {
         
         <div className="photo-frame">
           <img 
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=500&fit=crop" 
+            src="img_dressed.png" 
             alt="Halko & Ryo" 
             className="couple-photo"
           />
@@ -37,18 +38,25 @@ function App() {
         <div className="greeting-text">
           <p>謹啓</p>
           <p>
-            皆様におかれましては<br />
-            ますますご清祥のこととお慶び申し上げます
+            早春の候 皆様におかれましては<br />
+            益々ご清祥のことと<br />
+            お慶び申し上げます
           </p>
           <p>
-            このたび 私たちは結婚式を挙げることとなりました<br />
-            つきましては 日頃お世話になっております<br />
-            皆様にお集まりいただき<br />
-            ささやかな披露宴を催したく存じます
+            このたび 私たちは<br />
+            結婚式を挙げることとなりました<br />
+            おいそがしいことと存じますが<br />
+            ぜひご参列いただき<br />
+            日頃お世話になっております<br />
+            皆様と一緒に<br />
+            喜びのひとときを過ごさせていただければ<br />
+            幸いに存じます
           </p>
           <p>
-            ご多用中 誠に恐縮ではございますが<br />
-            ぜひご出席賜りますよう お願い申し上げます
+            式後ささやかではございますが<br />
+            小宴を催したく存じますので<br />
+            ぜひご出席賜りますよう<br />
+            お願い申し上げます
           </p>
           <p>謹白</p>
           <p className="greeting-names">Halko & Ryo</p>
@@ -65,37 +73,98 @@ function App() {
           <p>2026年4月29日（水・祝）</p>
         </div>
 
-        <div className="schedule">
-          <div className="schedule-item">
-            <span className="time">14:00</span>
-            <div className="schedule-icon">🚪</div>
-            <div className="schedule-content">
-              <span className="label">受付</span>
-              <p className="schedule-detail">
-                ウェルカムドリンクをご用意しておりますので、<br />
-                お時間に余裕を持ってお越しください
-              </p>
-            </div>
-          </div>
+  <div className="schedule">
+  {/* 12:00 受付 */}
+  <div className="schedule-item">
+    <div className="time-column">
+      <span className="time">12:00</span>
+    </div>
+    <div className="icon-column">
+      <div className="schedule-image-container">
+        {/* ic_clink.png を使用 */}
+        <img src="/ic_clink.png" alt="Welcome" className="schedule-icon-img" />
+      </div>
+    </div>
+    <div className="content-column">
+      <span className="label">受付・ウェルカムドリンク</span>
+      <p className="schedule-detail">
+        挙式までの時間をゆっくり過ごしていただけるよう、<br />
+        ささやかなお飲み物と軽食をご用意してお待ちしております。
+      </p>
+      <p className="schedule-detail">
+        お早めに到着された方や、ゲスト同士のご歓談を楽しみたい方は、<br />
+        12:00-13:50の間のお好きな時間にお越しください。
+      </p>
+      <p className="schedule-note">
+        ※皆様の状況に合わせて 自由なタイミングでご来場いただければ幸いです
+      </p>
+    </div>
+  </div>
 
-          <div className="schedule-item">
-            <span className="time">14:30</span>
-            <div className="schedule-icon">👤</div>
-            <span className="label">挙式</span>
-          </div>
+  {/* 14:00 挙式 */}
+  <div className="schedule-item">
+    <div className="time-column">
+      <span className="time">14:00</span>
+    </div>
+    <div className="icon-column">
+      <div className="schedule-image-container">
+        {/* ic_ring.png を使用 */}
+        <img src="/ic_ring.png" alt="Ceremony" className="schedule-icon-img" />
+      </div>
+    </div>
+    <div className="content-column">
+      <span className="label">挙式</span>
+    </div>
+  </div>
 
-          <div className="schedule-item">
-            <span className="time">15:30</span>
-            <div className="schedule-icon">🍽</div>
-            <span className="label">披露宴・乾杯</span>
-          </div>
+  {/* 14:30 撮影・歓談 */}
+  <div className="schedule-item">
+    <div className="time-column">
+      <span className="time">14:30</span>
+    </div>
+    <div className="icon-column">
+      <div className="schedule-image-container">
+        {/* ic_camera.png を使用 */}
+        <img src="/ic_camera.png" alt="Photo" className="schedule-icon-img" />
+      </div>
+    </div>
+    <div className="content-column">
+      <span className="label">撮影・歓談</span>
+    </div>
+  </div>
 
-          <div className="schedule-item">
-            <span className="time">18:00</span>
-            <div className="schedule-icon">👋</div>
-            <span className="label">お開き</span>
-          </div>
-        </div>
+  {/* 15:30 披露宴 */}
+  <div className="schedule-item">
+    <div className="time-column">
+      <span className="time">15:30</span>
+    </div>
+    <div className="icon-column">
+      <div className="schedule-image-container">
+        {/* ic_catrary.png を使用 */}
+        <img src="/ic_catrary.png" alt="Party" className="schedule-icon-img" />
+      </div>
+    </div>
+    <div className="content-column">
+      <span className="label">披露宴</span>
+    </div>
+  </div>
+
+  {/* 17:30 お開き */}
+  <div className="schedule-item">
+    <div className="time-column">
+      <span className="time">17:30</span>
+    </div>
+    <div className="icon-column">
+      <div className="schedule-image-container">
+        {/* ic_farewel.png を使用 */}
+        <img src="/ic_farewel.png" alt="Closing" className="schedule-icon-img" />
+      </div>
+    </div>
+    <div className="content-column">
+      <span className="label">お開き</span>
+    </div>
+  </div>
+</div>
 
         <div className="dress-code">
           <div className="dress-icon">👔</div>

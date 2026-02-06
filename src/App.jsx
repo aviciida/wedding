@@ -29,6 +29,8 @@ const RSVPForm = () => {
 
   const [guests, setGuests] = useState([createInitialGuest('adult')]);
   const [email, setEmail] = useState('');
+  const [showModal, setShowModal] = useState(false); // モーダルの表示・非表示
+  const [isAttending, setIsAttending] = useState(false); // 出席者がいるかどうか
 
   const addGuest = (type) => {
     setGuests([...guests, createInitialGuest(type)]);
@@ -120,10 +122,22 @@ const RSVPForm = () => {
     );
   };
 
+  const [copyLabel, setCopyLabel] = useState("振込先をコピーする");
+
+  const copyToClipboard = () => {
+    const text = "〇〇銀行 〇〇支店 普通 1234567 カナメ ナマエ";
+    navigator.clipboard.writeText(text).then(() => {
+      setCopyLabel("コピーしました！ ✓");
+      setTimeout(() => setCopyLabel("振込先をコピーする"), 2000); // 2秒で元に戻す
+    });
+  };
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ guests, email });
-    alert('回答を送信しました（コンソールを確認してください）');
+    const someOneAttending = guests.some(guest => guest.attendance === 'attend');
+    setIsAttending(someOneAttending);
+    setShowModal(true);
   };
 
   return (
@@ -340,6 +354,48 @@ const RSVPForm = () => {
           <button type="submit" className="submit-btn">回答を送信する</button>
         </div>
       </form>
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>お忙しい中ご出席のお返事を賜り<br />誠にありがとうございます</h3>
+            <div class="mail-wrapper">
+              <div class="envelope">
+                <div class="lid"></div>
+                <div class="letter">
+                  <div class="text-line"></div>
+                  <div class="text-line"></div>
+                  <div class="text-line"></div>
+                </div>
+                <div class="envelope-front"></div>
+              </div>
+            </div>
+            <p style={{ marginTop: '20px' }}>内容確認のメールを送付いたしました。</p>
+            {isAttending ? (
+              /* 出席者が1人でもいる場合 */
+              <div className="modal-body">
+
+                <p >メール内でもご案内しておりますが、<br />
+                  当日のスムーズな受付のため、ご祝儀の事前振込をお願いしております。</p>
+                <div className="bank-info-box">
+                  <p className="bank-label">振込先案内</p>
+                  <p className="bank-details">〇〇銀行 〇〇支店<br />普通 1234567 カナメ ナマエ</p>
+                  <button onClick={copyToClipboard} className="btn-copy">
+                    振込先をコピーする
+                  </button>
+                </div>
+
+                <p>当日、お会いできるのを心より楽しみにしています！</p>
+              </div>
+            ) : (
+              /* 全員欠席の場合 */
+              <div className="modal-body">
+                <p>今回はお会いできず非常に残念ですが、<br />今後とも末永いお付き合いをよろしくお願いいたします。</p>
+              </div>
+            )}
+            <button onClick={() => setShowModal(false)} type="submit" className="submit-btn">閉じる</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

@@ -10,8 +10,8 @@
   --color-bg: #fafafa;
   --color-text: #4a4a4a;
   --color-text-light: #888;
-  --color-accent: #6b8e9f;
-  --color-accent-light: #e8f0f3;
+  --color-accent: #79160D;
+  --color-accent-light: #FBF7ED;
   --color-border: #e0e0e0;
   --font-serif: 'Cormorant Garamond', 'Noto Sans JP', serif;
   --font-sans: 'Noto Sans JP', sans-serif;
@@ -39,6 +39,14 @@ body {
 }
 
 /* Navigation */
+/* --- Desktop Nav --- */
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 5%;
+}
 .nav {
   position: sticky;
   top: 0;
@@ -50,6 +58,7 @@ body {
   padding: 1rem;
   border-bottom: 1px solid var(--color-border);
   z-index: 100;
+  width: 100%;
 }
 
 .nav a {
@@ -61,8 +70,95 @@ body {
   transition: color 0.3s ease;
 }
 
+.nav ul {
+  display: flex;
+  gap: 30px;                     /* 項目間の距離。入り切らない場合はここを小さく */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.menu-toggle, .menu-icon {
+  display: none; /* PCでは非表示 */
+}
+
 .nav a:hover {
   color: var(--color-accent);
+}
+
+/* --- Mobile Nav (ハンバーガーメニュー) --- */
+@media (max-width: 600px) {
+  .menu-icon {
+    display: block; /* 三本線を表示 */
+    cursor: pointer;
+    position: relative;
+    z-index: 100;
+    padding-top: 20px;
+  }
+
+  .menu-icon span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: #333;
+    position: relative;
+    transition: 0.3s;
+  }
+
+  /* 三本線の上下の棒 */
+  .menu-icon span::before, .menu-icon span::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #333;
+    transition: 0.3s;
+  }
+  .menu-icon span::before { top: -8px; }
+  .menu-icon span::after { bottom: -8px; }
+
+  /* メニュー本体のスタイル */
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%; /* 最初は画面外に隠す */
+    width: 70%;
+    border-left: 1px solid #eee;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    transition: 0.4s;
+    z-index: 90;
+    padding-top: 80px;
+  }
+
+
+  .nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .nav ul li a {
+    /* ここで文字サイズを大きく調整 */
+    font-size: 1.3em !important; 
+    font-weight: bold;
+    display: block; /* 当たり判定を広くする */
+    width: 100%;
+    text-align: center;
+  }
+
+  /* チェックボックスにチェックが入ったらメニューを出す */
+  .menu-toggle:checked ~ .nav {
+    right: 0;
+  }
+
+  /* チェックが入ったら三本線を「×」に変える演出 */
+  .menu-toggle:checked + .menu-icon span { background: transparent; }
+  .menu-toggle:checked + .menu-icon span::before { transform: rotate(45deg); top: 0; }
+  .menu-toggle:checked + .menu-icon span::after { transform: rotate(-45deg); bottom: 0; }
+
+  .menu-toggle { display: none; }
 }
 
 /* Sections */
@@ -73,7 +169,7 @@ body {
 
 .section-title {
   font-family: var(--font-mono);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 400;
   letter-spacing: 0.15em;
   color: var(--color-text);
@@ -93,7 +189,7 @@ body {
 }
 
 .title {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 2.8rem;
   font-weight: 300;
   letter-spacing: 0.15em;
@@ -143,6 +239,7 @@ body {
 .greeting-text {
   max-width: 500px;
   margin: 0 auto;
+  font-size: 0.9rem;
   line-height: 2.2;
 }
 
@@ -150,11 +247,54 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.greeting-names {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-style: italic;
-  margin-top: 2rem;
+/* Signeture Section */
+.signature-container {
+  display: flex;
+  justify-content: center; /* 中央寄せ */
+  gap: 140px;               /* 二人の名前の間隔 */
+  margin-top: 80px;
+  text-align: center;
+}
+
+.signature-box {
+  position: relative;      /* サインを浮かせる基準点 */
+  width: 100px;            /* 名前とサインの幅に合わせて調整 */
+}
+
+.name-text {
+  font-size: 0.8rem;
+  margin: 0;
+  position: relative;
+  z-index: 1;              /* 文字をサインより少し下に配置したい場合は調整 */
+}
+
+.handwritten-sign {
+  position: absolute;
+  top: -55px;              /* 名前のどれくらい上に浮かせるか */
+  left: 50%;
+  transform: translateX(-50%) rotate(-5deg); /* 中央に配置し、少し傾けるとリアル */
+  height: 50px;
+  width: auto;            /* サインの大きさ */
+  pointer-events: none;    /* サイン画像が下の文字選択を邪魔しないようにする */
+  opacity: 0.9;            /* 少し透かすと紙に馴染みます */
+  max-width: 100%;
+}
+
+/* --- Mobile styles (ここを追加) --- */
+@media (max-width: 600px) {
+  .signature-container {
+    gap: 60px;       /* 間隔をギュッと狭くする */
+    margin-top: 60px; /* 上の余白も少し詰める */
+  }
+
+  .handwritten-sign {
+    height: 40px;    /* サインを少し小さく */
+    top: -45px;      /* サイズに合わせて位置を微調整 */
+  }
+
+  .name-text {
+    font-size: 0.7rem; /* 文字もわずかに小さく */
+  }
 }
 
 /* Information Section */
@@ -194,9 +334,9 @@ body {
 
 .time-column {
   font-family: var(--font-mono);
-  font-size: 1rem;
-  color: var(--color-text-light);
-  padding-top: 4px;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  padding-top: 7px;
 }
 
 .content-column {
@@ -225,8 +365,8 @@ body {
 }
 
 .label {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1.0rem;
+  font-weight: 400;
   color: var(--color-text);
 }
 
@@ -320,7 +460,6 @@ body {
 
 /* RSVP Notice */
 .rsvp-notice {
-  background: #f8f8f8;
   padding: 3rem 2rem;
 }
 
@@ -354,12 +493,16 @@ body {
   line-height: 1.8;
 }
 
+.rsvp-deadline-date-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
 .rsvp-deadline-date {
-  font-family: var(--font-mono);
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--color-accent);
-  margin-bottom: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 28px !important;
+  border-radius: 4px;
+  display: inline-block;
 }
 
 .rsvp-note {
@@ -619,6 +762,13 @@ input:invalid:focus {
   display: block;
 }
 
+/* プレースホルダー全体の色調整 */
+input::placeholder,
+textarea::placeholder {
+  color: #ccc;      /* 薄いグレーに設定 */
+  opacity: 1;       /* Firefox向け：デフォルトで透明度が低くなるのを防ぐ */
+}
+
 /* メールアドレス入力欄があるフッターセクションの幅を確保 */
 .form-footer-section {
   width: 100%;
@@ -673,6 +823,7 @@ input:invalid:focus {
   border-radius: 8px;
   box-sizing: border-box;
   font-family: inherit;
+  max-width: 100%;     /* 画面幅を超えないように制限 */
 }
 
 /* モバイル表示で文字が詰まらないように調整 */

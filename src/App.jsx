@@ -361,19 +361,36 @@ const RSVPForm = () => {
 function App() {
   return (
     <div className="wedding-site">
-      {/* Navigation */}
-      <nav className="nav">
-        <a href="#home">Home</a>
-        <a href="#greetings">Greetings</a>
-        <a href="#information">Information</a>
-        <a href="#access">Access</a>
-        <a href="#rsvp">RSVP</a>
-      </nav>
+<header className="header">
+  <div className="header-inner">
+    
+    {/* ハンバーガーメニュー用のチェックボックス（非表示） */}
+    <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+    
+    {/* 三本線のアイコン */}
+    <label htmlFor="menu-toggle" className="menu-icon">
+      <span></span>
+    </label>
+
+    {/* Navigation */}
+    <nav className="nav">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#greetings">Greetings</a></li>
+        <li><a href="#information">Information</a></li>
+        <li><a href="#access">Access</a></li>
+        <li><a href="#rsvp">RSVP</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    
 
       {/* Home Section */}
       <section id="home" className="section hero">
         <h1 className="title">Halko & Ryo</h1>
-        <p className="subtitle">we are saying "I do"</p>
+        <p className="subtitle">are saying "I do"</p>
 
         <div className="photo-frame">
           <img
@@ -416,8 +433,20 @@ function App() {
             お願い申し上げます
           </p>
           <p>謹白</p>
-          <p className="greeting-names">Halko & Ryo</p>
         </div>
+        <div className="signature-container">
+  {/* 新婦様 */}
+  <div className="signature-box">
+    <img src="img_sign_halko.png" alt="春子 サイン" className="handwritten-sign" />
+    <p className="name-text">春子</p>
+  </div>
+
+  {/* 新郎様 */}
+  <div className="signature-box">
+    <img src="img_sign_ryo.png" alt="諒 サイン" className="handwritten-sign" />
+    <p className="name-text">諒</p>
+  </div>
+</div>
       </section>
 
       {/* Information Section */}
@@ -444,7 +473,7 @@ function App() {
                 <span className="label">受付・ウェルカムドリンク</span>
               </div>
               <p className="schedule-detail">
-                挙式までの時間をゆっくり過ごしていただけるよう、ささやかなお飲み物と軽食をご用意してお待ちしております。
+                挙式までの時間をゆっくり過ごしていただけるよう、ささやかなお飲み物と軽食をご用意しております。
               </p>
               <p className="schedule-detail">
                 お早めに到着された方や、ゲスト同士のご歓談を楽しみたい方は、12:00-13:50の間のお好きな時間にお越しください。
@@ -520,10 +549,10 @@ function App() {
           <div className="dress-icon-container">
             <img src="/ic_hanger.png" alt="Dress Code" className="dress-icon-img" />
           </div>
-          <h3 className="dress-title">DRESS CODE</h3>
+          <h3 className="dress-title">Dress Code</h3>
           <p className="dress-text">
-            ウェディングドレス以外のお好きな格好でお越しください<br />
-            普段着から一張羅までお好きな格好でお越しください
+            ウェディングドレス以外のお好きな格好でお越しください。<br />
+            普段着から一張羅までお好きな格好でお越しください。
           </p>
         </div>
       </section>
@@ -560,89 +589,19 @@ function App() {
 
       {/* RSVP Notice */}
       <section className="section rsvp-notice">
-        <div className="notice-icon">💌</div>
-        <h3>出席のご案内</h3>
-        <p>ご出席いただける方は<br />以下よりご回答ください</p>
-      </section>
-      <RSVPForm />
-
-      {/* RSVP Section */}
-      <section id="rsvp" className="section rsvp">
-        <h2 className="section-title">RSVP</h2>
-        <div className="divider"></div>
-
         <p className="rsvp-deadline">
           お手数ですが、ご出席いただける場合は2026年3月29日までにご返信ください。<br />
           お待ちしております。
         </p>
 
-        <p className="rsvp-deadline-date">2026年3月26日</p>
+        <div className="rsvp-deadline-date-container">
+  <span className="rsvp-deadline-date">2026年3月26日</span>
+</div>
         <p className="rsvp-note">
           期日までのご返信が難しい場合は、ご一報いただけますと幸いです。
         </p>
-
-        <form className="rsvp-form" onSubmit={(e) => e.preventDefault()}>
-          <h3 className="form-section-title">大人の方</h3>
-
-          <div className="form-group">
-            <label>ご芳名をお知らせください</label>
-            <div className="radio-group">
-              <label><input type="radio" name="attendance" value="attend" /> ご出席</label>
-              <label><input type="radio" name="attendance" value="decline" /> ご欠席</label>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>お名前（様）</label>
-            <input type="text" placeholder="" />
-          </div>
-
-          <div className="form-group">
-            <label>返信用お名前（様）</label>
-            <input type="text" placeholder="例: 山田太郎" />
-            <small>返信用お名前は「様」を除きます</small>
-          </div>
-
-          <div className="form-group">
-            <label>ご住所</label>
-            <input type="text" placeholder="" />
-          </div>
-
-          <div className="form-group">
-            <label>人数</label>
-            <input type="number" min="1" max="10" placeholder="1" />
-          </div>
-
-          <div className="form-group">
-            <label>アレルギーの有無</label>
-            <div className="radio-group">
-              <label><input type="radio" name="allergy" value="none" /> アレルギーなし</label>
-              <label><input type="radio" name="allergy" value="has" /> アレルギーあり</label>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>送迎バスの利用</label>
-            <div className="radio-group">
-              <label><input type="radio" name="bus" value="use" /> 利用する</label>
-              <label><input type="radio" name="bus" value="nouse" /> 利用しない</label>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>メッセージ（任意）</label>
-            <textarea rows="4" placeholder="お二人へのメッセージをどうぞ"></textarea>
-          </div>
-
-          <button type="submit" className="submit-btn">送信</button>
-        </form>
-
-        <h3 className="form-section-title">お子様</h3>
-        <div className="form-group">
-          <label>お子様（様）</label>
-          <input type="text" placeholder="" />
-        </div>
       </section>
+      <RSVPForm />
 
       {/* Footer */}
       <footer className="footer">

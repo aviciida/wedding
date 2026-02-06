@@ -253,7 +253,7 @@ const RSVPForm = () => {
                             {guest.dietaryOptions.includes('その他（自由入力）') && (
                               <div className="dietary-other-input">
                                 <textarea className="rsvp-textarea" placeholder="詳細をご記入ください" value={guest.dietaryOtherText}
-                                required={guest.dietaryOptions.includes("その他（自由入力）") }
+                                  required={guest.dietaryOptions.includes("その他（自由入力）")}
                                   onChange={(e) => updateGuest(guest.id, 'dietaryOtherText', e.target.value)} />
                               </div>
                             )}
@@ -592,17 +592,21 @@ function App() {
           ></iframe>
         </div>
 
-        <div className="access-detail">
-          <p>🚃 JR渋谷駅 東口より徒歩5分</p>
-          <p>🚃 東京メトロ渋谷駅 B2出口より徒歩3分</p>
-        </div>
+        <a
+          href="https://www.angepatio.net/access"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-text-link"
+        >
+          最寄駅からのアクセス
+          <span className="icon-arrow">→</span>
+        </a>
       </section>
 
       {/* RSVP Notice */}
       <section className="section rsvp-notice">
         <p className="rsvp-deadline">
-          お手数ですが、ご出席いただける場合は2026年3月29日までにご返信ください。<br />
-          お待ちしております。
+          お手数ですが<br />下記お日にち迄に出欠情報のご連絡をお願い申し上げます<br />
         </p>
 
         <div className="rsvp-deadline-date-container">

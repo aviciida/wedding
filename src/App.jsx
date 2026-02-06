@@ -57,6 +57,69 @@ const RSVPForm = () => {
     }));
   };
 
+  const AllergySection = ({ guest, updateGuest }) => {
+    const handleAllergyChange = (index, field, value) => {
+      const newList = [...guest.allergyList];
+      newList[index][field] = value;
+      updateGuest(guest.id, 'allergyList', newList);
+    };
+
+    const addAllergyItem = () => {
+      updateGuest(guest.id, 'allergyList', [
+        ...guest.allergyList,
+        { food: '', noExtract: false, noHeat: false }
+      ]);
+    };
+
+    return (
+      <div className="allergy-container">
+        <div className="form-group checkbox-group">
+          <label>
+            <input
+              type="checkbox"
+              checked={guest.hasAllergy}
+              onChange={(e) => updateGuest(guest.id, 'hasAllergy', e.target.checked)}
+            />
+            アレルギーはございますか？
+          </label>
+        </div>
+
+        {guest.hasAllergy && (
+          <div className="allergy-section">
+            {guest.allergyList.map((allergy, i) => (
+              <div key={i} className="allergy-item">
+                <input type="text" placeholder="例：海老" value={allergy.food}
+                  required={i == 0 && guest.hasAllergy}
+                  onChange={(e) => {
+                    const newList = [...guest.allergyList];
+                    newList[i].food = e.target.value;
+                    updateGuest(guest.id, 'allergyList', newList);
+                  }} />
+                <div className="allergy-options">
+                  <label><input type="checkbox" checked={allergy.noExtract}
+                    onChange={(e) => {
+                      const newList = [...guest.allergyList];
+                      newList[i].noExtract = e.target.checked;
+                      updateGuest(guest.id, 'allergyList', newList);
+                    }} /> エキスもNG</label>
+                  <label><input type="checkbox" checked={allergy.noHeat}
+                    onChange={(e) => {
+                      const newList = [...guest.allergyList];
+                      newList[i].noHeat = e.target.checked;
+                      updateGuest(guest.id, 'allergyList', newList);
+                    }} /> 加熱済みもNG</label>
+                </div>
+              </div>
+            ))}
+            <button type="button" className="add-btn-mini" onClick={() => {
+              updateGuest(guest.id, 'allergyList', [...guest.allergyList, { food: '', noExtract: false, noHeat: false }]);
+            }}>＋ 項目を追加</button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ guests, email });
@@ -168,43 +231,8 @@ const RSVPForm = () => {
                           </div>
                         )}
 
-                        <div className="form-group checkbox-group">
-                          <label>
-                            <input type="checkbox" checked={guest.hasAllergy} onChange={(e) => updateGuest(guest.id, 'hasAllergy', e.target.checked)} />
-                            アレルギーはございますか？
-                          </label>
-                        </div>
-                        {guest.hasAllergy && (
-                          <div className="allergy-section">
-                            {guest.allergyList.map((allergy, i) => (
-                              <div key={i} className="allergy-item">
-                                <input type="text" placeholder="例：海老" value={allergy.food}
-                                  onChange={(e) => {
-                                    const newList = [...guest.allergyList];
-                                    newList[i].food = e.target.value;
-                                    updateGuest(guest.id, 'allergyList', newList);
-                                  }} />
-                                <div className="allergy-options">
-                                  <label><input type="checkbox" checked={allergy.noExtract}
-                                    onChange={(e) => {
-                                      const newList = [...guest.allergyList];
-                                      newList[i].noExtract = e.target.checked;
-                                      updateGuest(guest.id, 'allergyList', newList);
-                                    }} /> エキスもNG</label>
-                                  <label><input type="checkbox" checked={allergy.noHeat}
-                                    onChange={(e) => {
-                                      const newList = [...guest.allergyList];
-                                      newList[i].noHeat = e.target.checked;
-                                      updateGuest(guest.id, 'allergyList', newList);
-                                    }} /> 加熱済みもNG</label>
-                                </div>
-                              </div>
-                            ))}
-                            <button type="button" className="add-btn-mini" onClick={() => {
-                              updateGuest(guest.id, 'allergyList', [...guest.allergyList, { food: '', noExtract: false, noHeat: false }]);
-                            }}>＋ 項目を追加</button>
-                          </div>
-                        )}
+                        {/* 共通コンポーネント呼び出し */}
+                        <AllergySection guest={guest} updateGuest={updateGuest} />
 
                         <div className="form-group checkbox-group dietary-main-checkbox">
                           <label>
@@ -225,6 +253,7 @@ const RSVPForm = () => {
                             {guest.dietaryOptions.includes('その他（自由入力）') && (
                               <div className="dietary-other-input">
                                 <textarea className="rsvp-textarea" placeholder="詳細をご記入ください" value={guest.dietaryOtherText}
+                                required={guest.dietaryOptions.includes("その他（自由入力）") }
                                   onChange={(e) => updateGuest(guest.id, 'dietaryOtherText', e.target.value)} />
                               </div>
                             )}
@@ -286,51 +315,8 @@ const RSVPForm = () => {
                           </div>
                         </div>
                         {/* お子様用アレルギー項目 */}
-                        <div className="form-group checkbox-group">
-                          <label>
-                            <input
-                              type="checkbox"
-                              checked={guest.hasAllergy}
-                              onChange={(e) => updateGuest(guest.id, 'hasAllergy', e.target.checked)}
-                            />
-                            アレルギーはございますか？
-                          </label>
-                        </div>
-                        {guest.hasAllergy && (
-                          <div className="allergy-section child-allergy">
-                            {guest.allergyList.map((allergy, i) => (
-                              <div key={i} className="allergy-item">
-                                <input
-                                  type="text"
-                                  placeholder="例：卵、牛乳"
-                                  value={allergy.food}
-                                  onChange={(e) => {
-                                    const newList = [...guest.allergyList];
-                                    newList[i].food = e.target.value;
-                                    updateGuest(guest.id, 'allergyList', newList);
-                                  }}
-                                />
-                                <div className="allergy-options">
-                                  <label><input type="checkbox" checked={allergy.noExtract}
-                                    onChange={(e) => {
-                                      const newList = [...guest.allergyList];
-                                      newList[i].noExtract = e.target.checked;
-                                      updateGuest(guest.id, 'allergyList', newList);
-                                    }} /> エキスもNG</label>
-                                  <label><input type="checkbox" checked={allergy.noHeat}
-                                    onChange={(e) => {
-                                      const newList = [...guest.allergyList];
-                                      newList[i].noHeat = e.target.checked;
-                                      updateGuest(guest.id, 'allergyList', newList);
-                                    }} /> 加熱済みもNG</label>
-                                </div>
-                              </div>
-                            ))}
-                            <button type="button" className="add-btn-mini" onClick={() => {
-                              updateGuest(guest.id, 'allergyList', [...guest.allergyList, { food: '', noExtract: false, noHeat: false }]);
-                            }}>＋ 項目を追加</button>
-                          </div>
-                        )}
+                        {/* 共通コンポーネント呼び出し */}
+                        <AllergySection guest={guest} updateGuest={updateGuest} />
                       </div>
                     )}
                   </>
@@ -358,34 +344,58 @@ const RSVPForm = () => {
   );
 };
 
+const ImageCarousel = () => {
+  const images = [
+    'dresscode_reel_1.png',
+    'dresscode_reel_2.png',
+    'dresscode_reel_3.png',
+    'dresscode_reel_4.png',
+  ];
+
+  // 無限ループを実現するために、リストを2回繰り返す
+  const displayImages = [...images, ...images];
+
+  return (
+    <div className="carousel-viewport">
+      <div className="carousel-track">
+        {displayImages.map((src, index) => (
+          <div className="carousel-slide" key={index}>
+            <img src={src} alt={`Dresscode ${index + 1}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 function App() {
   return (
     <div className="wedding-site">
-<header className="header">
-  <div className="header-inner">
-    
-    {/* ハンバーガーメニュー用のチェックボックス（非表示） */}
-    <input type="checkbox" id="menu-toggle" className="menu-toggle" />
-    
-    {/* 三本線のアイコン */}
-    <label htmlFor="menu-toggle" className="menu-icon">
-      <span></span>
-    </label>
+      <header className="header">
+        <div className="header-inner">
 
-    {/* Navigation */}
-    <nav className="nav">
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#greetings">Greetings</a></li>
-        <li><a href="#information">Information</a></li>
-        <li><a href="#access">Access</a></li>
-        <li><a href="#rsvp">RSVP</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+          {/* ハンバーガーメニュー用のチェックボックス（非表示） */}
+          <input type="checkbox" id="menu-toggle" className="menu-toggle" />
 
-    
+          {/* 三本線のアイコン */}
+          <label htmlFor="menu-toggle" className="menu-icon">
+            <span></span>
+          </label>
+
+          {/* Navigation */}
+          <nav className="nav">
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#greetings">Greetings</a></li>
+              <li><a href="#information">Information</a></li>
+              <li><a href="#access">Access</a></li>
+              <li><a href="#rsvp">RSVP</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+
 
       {/* Home Section */}
       <section id="home" className="section hero">
@@ -435,18 +445,18 @@ function App() {
           <p>謹白</p>
         </div>
         <div className="signature-container">
-  {/* 新婦様 */}
-  <div className="signature-box">
-    <img src="img_sign_halko.png" alt="春子 サイン" className="handwritten-sign" />
-    <p className="name-text">春子</p>
-  </div>
+          {/* 新婦様 */}
+          <div className="signature-box">
+            <img src="img_sign_halko.png" alt="春子 サイン" className="handwritten-sign" />
+            <p className="name-text">春子</p>
+          </div>
 
-  {/* 新郎様 */}
-  <div className="signature-box">
-    <img src="img_sign_ryo.png" alt="諒 サイン" className="handwritten-sign" />
-    <p className="name-text">諒</p>
-  </div>
-</div>
+          {/* 新郎様 */}
+          <div className="signature-box">
+            <img src="img_sign_ryo.png" alt="諒 サイン" className="handwritten-sign" />
+            <p className="name-text">諒</p>
+          </div>
+        </div>
       </section>
 
       {/* Information Section */}
@@ -550,6 +560,7 @@ function App() {
             <img src="/ic_hanger.png" alt="Dress Code" className="dress-icon-img" />
           </div>
           <h3 className="dress-title">Dress Code</h3>
+          {/* <ImageCarousel/> */}
           <p className="dress-text">
             ウェディングドレス以外のお好きな格好でお越しください。<br />
             普段着から一張羅までお好きな格好でお越しください。
@@ -595,8 +606,8 @@ function App() {
         </p>
 
         <div className="rsvp-deadline-date-container">
-  <span className="rsvp-deadline-date">2026年3月26日</span>
-</div>
+          <span className="rsvp-deadline-date">2026年3月26日</span>
+        </div>
         <p className="rsvp-note">
           期日までのご返信が難しい場合は、ご一報いただけますと幸いです。
         </p>

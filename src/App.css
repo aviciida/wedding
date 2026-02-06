@@ -384,13 +384,98 @@ body {
 }
 
 /* Dress Code */
-/* Dress Code - 本来のデザインに合わせた修正 */
 .dress-code-section {
   text-align: center;
   padding: 2rem 0;
   max-width: 500px;
   margin: 0 auto;
 }
+
+/* Carousel */
+.carousel-viewport {
+  width: 100%;
+  overflow: hidden; /* はみ出た分を隠す */
+  background: #fff;
+  display: flex;
+  padding: 40px 0;
+}
+
+.carousel-track {
+  display: flex;
+  margin-left: -125px;
+  width: calc(250px * 8);
+  animation: scroll-and-pause var(--animation-length) infinite; /* 20秒で一周、等速、無限 */
+}
+
+:root {
+  --animation-length: 8s
+}
+
+@keyframes scroll-and-pause {
+  /* 0%〜20%: 1枚目が中心へ移動して停止 */
+  0%, 20% { transform: translateX(0); }
+  
+  /* 25%〜45%: 2枚目が中心へ移動して停止 */
+  25%, 45% { transform: translateX(calc(-250px * 1)); }
+  
+  /* 50%〜70%: 3枚目が中心へ移動して停止 */
+  50%, 70% { transform: translateX(calc(-250px * 2)); }
+  
+  /* 75%〜95%: 4枚目が中心へ移動して停止 */
+  75%, 95% { transform: translateX(calc(-250px * 3)); }
+  
+  /* 100%: 最初の位置に戻る（ループ） */
+  100% { transform: translateX(calc(-250px * 4)); }
+}
+
+.carousel-slide {
+  width: 250px; /* 画像の幅（お好みで調整） */
+  flex-shrink: 0;
+  padding: 0 10px;
+  }
+
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* 角を丸くすると柔らかい印象に */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: zoom-in-out 8s infinite;
+}
+
+/* 画面中央付近に来たタイミングで拡大させるアニメーション */
+@keyframes zoom-in-out {
+  0%, 17% {
+    transform: scale(1.2);
+    filter: blur(0px);
+    z-index: 10; /* 他のカードの下に回る */
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+  
+  23%, 96% {
+    transform: scale(1.0);
+    filter: blur(2px);
+    opacity: 0.7;
+    z-index: -1; /* 他のカードの下に回る */
+    position: relative;
+  
+  }
+
+  /* 25%〜100%: 自分が中心にいない長い時間は、ずっと通常サイズ */
+  100% {
+    transform: scale(1.2);
+    filter: blur(0px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+}
+
+/* 5秒（20sの25%）ずつディレイをかける */
+.carousel-slide:nth-child(2) img, .carousel-slide:nth-child(6) img { animation-delay: 0s; }
+.carousel-slide:nth-child(3) img, .carousel-slide:nth-child(7) img { animation-delay: 2s; }
+.carousel-slide:nth-child(4) img, .carousel-slide:nth-child(8) img { animation-delay: 4s; }
+.carousel-slide:nth-child(1) img, .carousel-slide:nth-child(5) img { animation-delay: 6s; }
+
 
 .dress-icon-container {
   width: 50px;
@@ -850,9 +935,7 @@ textarea::placeholder {
 }
 
 .child-fields {
-  background: #fdfaf5;
   /* お子様セクションと分かりやすく少し色を変えてもOK */
-  padding: 15px;
   border-radius: 8px;
   border: 1px dashed var(--color-primary);
 }
@@ -881,6 +964,23 @@ textarea::placeholder {
 .copyright {
   font-size: 0.75rem;
   color: var(--color-text-light);
+}
+
+/* すべての入力要素のアクセントカラーを一括設定 */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--color-accent);
+  /* 少し大きくしてタップしやすくする場合 */
+  width: 1.0rem;
+  height: 1.0rem;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* iOS Safariなどで色が反映されにくい場合への補強 */
+.rsvp-form input[type="checkbox"]:checked,
+.rsvp-form input[type="radio"]:checked {
+  accent-color: var(--color-accent);
 }
 
 /* Responsive */

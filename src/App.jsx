@@ -144,6 +144,19 @@ const RSVPForm = () => {
     <section id="rsvp" className="section rsvp">
       <h2 className="section-title">RSVP</h2>
       <div className="divider"></div>
+            {/* RSVP Notice */}
+      <section className="section rsvp-notice">
+        <p className="rsvp-deadline">
+          お手数ですが<br />下記お日にち迄に出欠情報のご連絡をお願い申し上げます<br />
+        </p>
+
+        <div className="rsvp-deadline-date-container">
+          <span className="rsvp-deadline-date">2026年3月26日</span>
+        </div>
+        <p className="rsvp-note">
+          期日までのご返信が難しい場合は、ご一報いただけますと幸いです。
+        </p>
+      </section>
 
       <form className="rsvp-form" onSubmit={handleSubmit}>
         {guests.map((guest, index) => (
@@ -466,7 +479,7 @@ function App() {
           />
         </div>
 
-        <p className="date">4.29.2026</p>
+        <p className="date">2026.04.29</p>
         <p className="venue-short">Angepatio, Shibuya</p>
       </section>
 
@@ -657,20 +670,6 @@ function App() {
           最寄駅からのアクセス
           <span className="icon-arrow">→</span>
         </a>
-      </section>
-
-      {/* RSVP Notice */}
-      <section className="section rsvp-notice">
-        <p className="rsvp-deadline">
-          お手数ですが<br />下記お日にち迄に出欠情報のご連絡をお願い申し上げます<br />
-        </p>
-
-        <div className="rsvp-deadline-date-container">
-          <span className="rsvp-deadline-date">2026年3月26日</span>
-        </div>
-        <p className="rsvp-note">
-          期日までのご返信が難しい場合は、ご一報いただけますと幸いです。
-        </p>
       </section>
       <RSVPForm />
 

@@ -61,18 +61,6 @@ const RSVPForm = () => {
   };
 
   const AllergySection = ({ guest, updateGuest }) => {
-    const handleAllergyChange = (index, field, value) => {
-      const newList = [...guest.allergyList];
-      newList[index][field] = value;
-      updateGuest(guest.id, 'allergyList', newList);
-    };
-
-    const addAllergyItem = () => {
-      updateGuest(guest.id, 'allergyList', [
-        ...guest.allergyList,
-        { food: '', noExtract: false, noHeat: false }
-      ]);
-    };
 
     return (
       <div className="allergy-container">

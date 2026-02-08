@@ -31,6 +31,7 @@ const RSVPForm = () => {
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false); // モーダルの表示・非表示
   const [isAttending, setIsAttending] = useState(false); // 出席者がいるかどうか
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addGuest = (type) => {
     setGuests([...guests, createInitialGuest(type)]);
@@ -133,12 +134,60 @@ const RSVPForm = () => {
   };
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const someOneAttending = guests.some(guest => guest.attendance === 'attend');
-    setIsAttending(someOneAttending);
-    setShowModal(true);
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  // ローディング開始 ★
+  setIsSubmitting(true);
+  
+  const someOneAttending = guests.some(guest => guest.attendance === 'attend');
+  setIsAttending(someOneAttending);
+  
+  // スプレッドシートに送信するデータを準備
+  const dataToSend = guests.map(guest => ({
+    type: guest.type === 'adult' ? '大人' : 'お子様',
+    attendance: guest.attendance === 'attend' ? '出席' : '欠席',
+    firstName: guest.firstName,
+    lastName: guest.lastName,
+    kanaFirstName: guest.kanaFirstName,
+    kanaLastName: guest.kanaLastName,
+    enFirstName: guest.enFirstName,
+    enMiddleName: guest.enMiddleName,
+    enLastName: guest.enLastName,
+    isDriving: guest.isDriving ? 'はい' : 'いいえ',
+    arrivalTime: guest.arrivalTime,
+    hasAllergy: guest.hasAllergy ? 'はい' : 'いいえ',
+    allergyList: guest.hasAllergy ? JSON.stringify(guest.allergyList, null, 2) : '',
+    hasDietaryNeed: guest.hasDietaryNeed ? 'はい' : 'いいえ',
+    dietaryOptions: guest.hasDietaryNeed ? guest.dietaryOptions.join(', ') : '',
+    dietaryOtherText: guest.dietaryOtherText,
+    childAge: guest.childAge,
+    childMeal: guest.childMeal,
+    childSeat: guest.childSeat,
+    emailAdress: email
+  }));
+
+  // GASに送信
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyKMigFLf0zhpNiO5XlkwRCFYnmT4y4XPlJEntnAYTebUbDvgHp2hs1H0ES_mqcWEQCeQ/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataToSend)
+    });
+    
+  } catch (error) {
+    console.error('❌ 送信エラー:', error);
+    setIsSubmitting(false); // ★ エラー時はローディング終了
+    alert('送信中にエラーが発生しました。もう一度お試しください。');
+    return;
+  }
+  
+  setIsSubmitting(false); // ★ 送信完了後ローディング終了
+  setShowModal(true);
+};
 
   return (
     <section id="rsvp" className="section rsvp">
@@ -364,7 +413,20 @@ const RSVPForm = () => {
             <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="example@mail.com" className="rsvp-input" />
             <p className="help-text">回答完了のメールを送信するために使用します。</p>
           </div>
-          <button type="submit" className="submit-btn">回答を送信する</button>
+          <button 
+            type="submit" 
+            className={`submit-btn ${isSubmitting ? 'loading' : ''}`}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                送信中
+                <span className="spinner"></span>
+              </>
+            ) : (
+              '回答を送信する'
+            )}
+          </button>
         </div>
       </form>
       {showModal && (

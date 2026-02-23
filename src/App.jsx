@@ -178,7 +178,7 @@ const handleSubmit = async (e) => {
 
   // GASに送信
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbyKMigFLf0zhpNiO5XlkwRCFYnmT4y4XPlJEntnAYTebUbDvgHp2hs1H0ES_mqcWEQCeQ/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzi4RiTRUJ-BNFktt0AiIp-ukv1_J9drxtTr1LackP4w4lTFgPeT-bEVUDUnNqwQX7otQ/exec', {
       method: 'POST',
       mode: 'no-cors',
       headers: {

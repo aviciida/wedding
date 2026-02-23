@@ -1,6 +1,27 @@
 import './App.css'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+const IntroOverlay = ({ onComplete }) => {
+  const [phase, setPhase] = useState('enter'); // 'enter' | 'hold' | 'exit'
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase('hold'), 800);
+    const t2 = setTimeout(() => setPhase('exit'), 2400);
+    const t3 = setTimeout(() => onComplete(), 3600);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+
+  return (
+    <div className={`intro-overlay intro-overlay--${phase}`}>
+      <div className="intro-content">
+        <p className="intro-names">Halko &amp; Ryo</p>
+        <div className="intro-divider"></div>
+        <p className="intro-date">2026 . 04 . 29</p>
+      </div>
+    </div>
+  );
+};
 
 const RSVPForm = () => {
   // ゲスト1人分の初期データ構造
@@ -488,8 +509,12 @@ const ImageCarousel = () => {
 };
 
 function App() {
+  const [introComplete, setIntroComplete] = useState(false);
+
   return (
-    <div className="wedding-site">
+    <>
+      {!introComplete && <IntroOverlay onComplete={() => setIntroComplete(true)} />}
+    <div className={`wedding-site ${introComplete ? 'site--visible' : 'site--hidden'}`}>
       <header className="header">
         <div className="header-inner">
 
@@ -742,6 +767,7 @@ function App() {
         <p className="copyright">© 2026 by Halko & Ryo</p>
       </footer>
     </div>
+    </>
   )
 }
 

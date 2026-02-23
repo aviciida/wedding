@@ -31,6 +31,77 @@ body {
   font-size: 16px;
 }
 
+/* ─── Intro Overlay ─── */
+@keyframes introFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes introLineExpand {
+  from { width: 0; }
+  to   { width: 48px; }
+}
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fafafa;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 1.2s ease;
+}
+
+.intro-overlay--exit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-content {
+  text-align: center;
+  animation: introFadeIn 1.2s ease forwards;
+}
+
+.intro-names {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  color: var(--color-text);
+}
+
+.intro-divider {
+  height: 1px;
+  width: 0;
+  background: var(--color-text);
+  margin: 1.2rem auto;
+  animation: introLineExpand 0.8s ease 0.8s forwards;
+}
+
+.intro-date {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.35em;
+  color: var(--color-text-light);
+}
+
+/* ─── Site fade-in after intro ─── */
+.site--hidden {
+  opacity: 0;
+}
+
+.site--visible {
+  animation: siteFadeIn 1s ease forwards;
+}
+
+@keyframes siteFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Wedding Site ─── */
 .wedding-site {
   max-width: 1200px;
   margin: 0 auto;

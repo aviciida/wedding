@@ -278,14 +278,20 @@ body {
 
 /* Greetings Section */
 .greeting-text {
+  display: inline-block;
   max-width: 500px;
-  margin: 0 auto;
   font-size: 0.9rem;
   line-height: 2.2;
+  text-align: center;
 }
 
 .greeting-text p {
   margin-bottom: 1.5rem;
+}
+
+.greeting-kinpaku {
+  text-align: right;
+  margin-bottom: 0;
 }
 
 /* Signeture Section */
@@ -690,6 +696,33 @@ body {
   /* ホバーで線が伸びる */
   transform-origin: left;
   /* 左から伸びる */
+}
+
+/* Taxi Info Box */
+.taxi-info-box {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  border: 1px solid #c8b89a;
+  border-radius: 4px;
+  background-color: #faf8f5;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 2;
+  color: #555;
+}
+
+.taxi-info-box p {
+  margin-bottom: 0.8rem;
+}
+
+.taxi-info-box p:last-child {
+  margin-bottom: 0;
+}
+
+.taxi-route {
+  font-size: 0.85rem;
+  color: #888;
+  letter-spacing: 0.05em;
 }
 
 /* RSVP Notice */

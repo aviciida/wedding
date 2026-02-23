@@ -188,10 +188,10 @@ const handleSubmit = async (e) => {
         </p>
 
         <div className="rsvp-deadline-date-container">
-          <span className="rsvp-deadline-date">2026年3月26日</span>
+          <span className="rsvp-deadline-date">2026年3月28日</span>
         </div>
         <p className="rsvp-note">
-          期日までのご返信が難しい場合は、ご一報いただけますと幸いです。
+          期日までのご返信が難しい場合は ご一報いただけますと幸いです
         </p>
       </section>
 
@@ -539,9 +539,8 @@ function App() {
         <div className="divider"></div>
 
         <div className="greeting-text">
-          <p>謹啓</p>
           <p>
-            早春の候 皆様におかれましては<br />
+            　謹啓　早春の候 皆様におかれましては<br />
             益々ご清祥のことと<br />
             お慶び申し上げます
           </p>
@@ -549,7 +548,7 @@ function App() {
             このたび 私たちは<br />
             結婚式を挙げることとなりました<br />
             おいそがしいことと存じますが<br />
-            ぜひご参列いただき<br />
+            ぜひご列席いただき<br />
             日頃お世話になっております<br />
             皆様と一緒に<br />
             喜びのひとときを過ごさせていただければ<br />
@@ -561,7 +560,7 @@ function App() {
             ぜひご出席賜りますよう<br />
             お願い申し上げます
           </p>
-          <p>謹白</p>
+          <p className="greeting-kinpaku">謹白</p>
         </div>
         <div className="signature-container">
           {/* 新婦様 */}
@@ -585,7 +584,7 @@ function App() {
 
         <div className="info-block">
           <h3>挙式日</h3>
-          <p>2026年4月29日（水・祝）</p>
+          <p>2026年4月29日（水曜日・祝日）</p>
         </div>
 
         <div className="schedule">
@@ -602,10 +601,10 @@ function App() {
                 <span className="label">受付・ウェルカムドリンク</span>
               </div>
               <p className="schedule-detail">
-                挙式までの時間をゆっくり過ごしていただけるよう、ささやかなお飲み物と軽食をご用意しております。
+                挙式までの時間をゆっくり過ごしていただけるよう ささやかなお飲み物と軽食をご用意しております
               </p>
               <p className="schedule-detail">
-                お早めに到着された方や、ゲスト同士のご歓談を楽しみたい方は、12:00-13:50の間のお好きな時間にお越しください。
+                12:00-13:45の間のお好きな時間にお越しください
               </p>
               <p className="schedule-note">
                 ※皆様の状況に合わせて 自由なタイミングでご来場いただければ幸いです
@@ -681,8 +680,8 @@ function App() {
           <h3 className="dress-title">Dress Code</h3>
           {/* <ImageCarousel/> */}
           <p className="dress-text">
-            ウェディングドレス以外のお好きな格好でお越しください。<br />
-            普段着から一張羅までお好きな格好でお越しください。
+            ウェディングドレス以外のお好きな格好でお越しください<br />
+            普段着から一張羅までお好きな格好でお越しください
           </p>
         </div>
       </section>
@@ -695,7 +694,7 @@ function App() {
         <div className="venue-info">
           <div className="venue-icon">📍</div>
           <h3>アンジェパティオ</h3>
-          <p>〒150-0002 東京都渋谷区渋谷1-2-3</p>
+          <p>〒150-0036 東京都渋谷区南平台町12-11</p>
         </div>
 
         <div className="map-container">
@@ -720,6 +719,19 @@ function App() {
           最寄駅からのアクセス
           <span className="icon-arrow">→</span>
         </a>
+
+        <div className="taxi-info-box">
+          <p>
+            当日は渋谷駅よりタクシーを<br />
+            ご利用くださいませ
+          </p>
+          <p>
+            【領収書】を式場のエントランスにおります<br />
+            係の者にお渡しください<br />
+            ご精算させていただきます
+          </p>
+          <p className="taxi-route">《 渋谷駅 → アンジェパティオ間 》</p>
+        </div>
       </section>
       <RSVPForm />
 

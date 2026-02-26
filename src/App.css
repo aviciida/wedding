@@ -1416,6 +1416,16 @@ textarea::placeholder {
   border: 1px dashed #ccc;
 }
 
+.bank-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
 .btn-copy {
   background: #333;
   color: #fff;

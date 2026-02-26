@@ -23,6 +23,56 @@ const IntroOverlay = ({ onComplete }) => {
   );
 };
 
+const AllergySection = ({ guest, updateGuest }) => {
+  return (
+    <div className="allergy-container">
+      <div className="form-group checkbox-group">
+        <label>
+          <input
+            type="checkbox"
+            checked={guest.hasAllergy}
+            onChange={(e) => updateGuest(guest.id, 'hasAllergy', e.target.checked)}
+          />
+          アレルギーはございますか？
+        </label>
+      </div>
+
+      {guest.hasAllergy && (
+        <div className="allergy-section">
+          {guest.allergyList.map((allergy, i) => (
+            <div key={i} className="allergy-item">
+              <input type="text" placeholder="例：海老" value={allergy.food}
+                required={i == 0 && guest.hasAllergy}
+                onChange={(e) => {
+                  const newList = [...guest.allergyList];
+                  newList[i] = { ...newList[i], food: e.target.value };
+                  updateGuest(guest.id, 'allergyList', newList);
+                }} />
+              <div className="allergy-options">
+                <label><input type="checkbox" checked={allergy.noExtract}
+                  onChange={(e) => {
+                    const newList = [...guest.allergyList];
+                    newList[i] = { ...newList[i], noExtract: e.target.checked };
+                    updateGuest(guest.id, 'allergyList', newList);
+                  }} /> エキスもNG</label>
+                <label><input type="checkbox" checked={allergy.noHeat}
+                  onChange={(e) => {
+                    const newList = [...guest.allergyList];
+                    newList[i] = { ...newList[i], noHeat: e.target.checked };
+                    updateGuest(guest.id, 'allergyList', newList);
+                  }} /> 加熱済みもNG</label>
+              </div>
+            </div>
+          ))}
+          <button type="button" className="add-btn-mini" onClick={() => {
+            updateGuest(guest.id, 'allergyList', [...guest.allergyList, { food: '', noExtract: false, noHeat: false }]);
+          }}>＋ 項目を追加</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const RSVPForm = () => {
   // ゲスト1人分の初期データ構造
   const createInitialGuest = (type = 'adult') => ({
@@ -81,61 +131,10 @@ const RSVPForm = () => {
     }));
   };
 
-  const AllergySection = ({ guest, updateGuest }) => {
-
-    return (
-      <div className="allergy-container">
-        <div className="form-group checkbox-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={guest.hasAllergy}
-              onChange={(e) => updateGuest(guest.id, 'hasAllergy', e.target.checked)}
-            />
-            アレルギーはございますか？
-          </label>
-        </div>
-
-        {guest.hasAllergy && (
-          <div className="allergy-section">
-            {guest.allergyList.map((allergy, i) => (
-              <div key={i} className="allergy-item">
-                <input type="text" placeholder="例：海老" value={allergy.food}
-                  required={i == 0 && guest.hasAllergy}
-                  onChange={(e) => {
-                    const newList = [...guest.allergyList];
-                    newList[i].food = e.target.value;
-                    updateGuest(guest.id, 'allergyList', newList);
-                  }} />
-                <div className="allergy-options">
-                  <label><input type="checkbox" checked={allergy.noExtract}
-                    onChange={(e) => {
-                      const newList = [...guest.allergyList];
-                      newList[i].noExtract = e.target.checked;
-                      updateGuest(guest.id, 'allergyList', newList);
-                    }} /> エキスもNG</label>
-                  <label><input type="checkbox" checked={allergy.noHeat}
-                    onChange={(e) => {
-                      const newList = [...guest.allergyList];
-                      newList[i].noHeat = e.target.checked;
-                      updateGuest(guest.id, 'allergyList', newList);
-                    }} /> 加熱済みもNG</label>
-                </div>
-              </div>
-            ))}
-            <button type="button" className="add-btn-mini" onClick={() => {
-              updateGuest(guest.id, 'allergyList', [...guest.allergyList, { food: '', noExtract: false, noHeat: false }]);
-            }}>＋ 項目を追加</button>
-          </div>
-        )}
-      </div>
-    );
-  };
-
   const [copyLabel, setCopyLabel] = useState("振込先をコピーする");
 
   const copyToClipboard = () => {
-    const text = "〇〇銀行 〇〇支店 普通 1234567 カナメ ナマエ";
+    const text = "ゆうちょ銀行\n〇五八（ゼロゴハチ）店\n普通 8873091\nイイダ リョウ";
     navigator.clipboard.writeText(text).then(() => {
       setCopyLabel("コピーしました！ ✓");
       setTimeout(() => setCopyLabel("振込先をコピーする"), 2000); // 2秒で元に戻す
@@ -178,7 +177,7 @@ const handleSubmit = async (e) => {
 
   // GASに送信
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzi4RiTRUJ-BNFktt0AiIp-ukv1_J9drxtTr1LackP4w4lTFgPeT-bEVUDUnNqwQX7otQ/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwL1v_X1pTuFMthq3IDz2ZfVbloanOaqrC9RtFfplM94KIHG6-MHvHMFrHKGFtnJA3JzA/exec', {
       method: 'POST',
       mode: 'no-cors',
       headers: {
@@ -195,6 +194,8 @@ const handleSubmit = async (e) => {
   }
   
   setIsSubmitting(false); // ★ 送信完了後ローディング終了
+  setGuests([createInitialGuest('adult')]);
+  setEmail('');
   setShowModal(true);
 };
 
@@ -442,17 +443,6 @@ const handleSubmit = async (e) => {
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>お忙しい中ご出席のお返事を賜り<br />誠にありがとうございます</h3>
-            <div class="mail-wrapper">
-              <div class="envelope">
-                <div class="lid"></div>
-                <div class="letter">
-                  <div class="text-line"></div>
-                  <div class="text-line"></div>
-                  <div class="text-line"></div>
-                </div>
-                <div class="envelope-front"></div>
-              </div>
-            </div>
             <p style={{ marginTop: '20px' }}>内容確認のメールを送付いたしました。</p>
             {isAttending ? (
               /* 出席者が1人でもいる場合 */
@@ -462,7 +452,12 @@ const handleSubmit = async (e) => {
                   当日のスムーズな受付のため、ご祝儀の事前振込をお願いしております。</p>
                 <div className="bank-info-box">
                   <p className="bank-label">振込先案内</p>
-                  <p className="bank-details">〇〇銀行 〇〇支店<br />普通 1234567 カナメ ナマエ</p>
+                  <p className="bank-details">
+                    ゆうちょ銀行<br />
+                    〇五八（ゼロゴハチ）店<br />
+                    普通 8873091<br />
+                    イイダ リョウ
+                  </p>
                   <button onClick={copyToClipboard} className="btn-copy">
                     振込先をコピーする
                   </button>

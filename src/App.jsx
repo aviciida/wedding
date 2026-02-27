@@ -177,7 +177,7 @@ const handleSubmit = async (e) => {
 
   // GASに送信
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwL1v_X1pTuFMthq3IDz2ZfVbloanOaqrC9RtFfplM94KIHG6-MHvHMFrHKGFtnJA3JzA/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxl--2YCBmb0KFZB8ASoOBuKiCyEwYxc34aAmH_6H7aHcD9rhvrFDtZt8ViJmzJuJWnqQ/exec', {
       method: 'POST',
       mode: 'no-cors',
       headers: {
@@ -443,13 +443,13 @@ const handleSubmit = async (e) => {
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>お忙しい中ご出席のお返事を賜り<br />誠にありがとうございます</h3>
-            <p style={{ marginTop: '20px' }}>内容確認のメールを送付いたしました。</p>
+            <p style={{ marginTop: '20px' }}>内容確認のメールを送付いたしました</p>
             {isAttending ? (
               /* 出席者が1人でもいる場合 */
               <div className="modal-body">
 
-                <p >メール内でもご案内しておりますが、<br />
-                  当日のスムーズな受付のため、ご祝儀の事前振込をお願いしております。</p>
+                <p >メール内でもご案内しておりますが<br />
+                  当日のスムーズな受付のため<br/>ご祝儀の事前振込をお願いしております</p>
                 <div className="bank-info-box">
                   <p className="bank-label">振込先案内</p>
                   <p className="bank-details">
@@ -463,12 +463,12 @@ const handleSubmit = async (e) => {
                   </button>
                 </div>
 
-                <p>当日、お会いできるのを心より楽しみにしています！</p>
+                <p>当日、お会いできるのを心より楽しみにしています</p>
               </div>
             ) : (
               /* 全員欠席の場合 */
               <div className="modal-body">
-                <p>今回はお会いできず非常に残念ですが、<br />今後とも末永いお付き合いをよろしくお願いいたします。</p>
+                <p>今回はお会いできず非常に残念ですが<br />今後とも末永いお付き合いをよろしくお願いいたします</p>
               </div>
             )}
             <button onClick={() => setShowModal(false)} type="submit" className="submit-btn">閉じる</button>
@@ -582,19 +582,6 @@ function App() {
           </p>
           <p className="greeting-kinpaku">謹白</p>
         </div>
-        <div className="signature-container">
-          {/* 新婦様 */}
-          <div className="signature-box">
-            <img src="img_sign_halko.png" alt="春子 サイン" className="handwritten-sign" />
-            <p className="name-text">春子</p>
-          </div>
-
-          {/* 新郎様 */}
-          <div className="signature-box">
-            <img src="img_sign_ryo.png" alt="諒 サイン" className="handwritten-sign" />
-            <p className="name-text">諒</p>
-          </div>
-        </div>
       </section>
 
       {/* Information Section */}
@@ -689,6 +676,25 @@ function App() {
                 </div>
                 <span className="label">お開き</span>
               </div>
+            </div>
+          </div>
+
+          {/* 18:00 二次会 */}
+          <div className="schedule-item">
+            <div className="time-column">
+              <span className="time">18:00</span>
+            </div>
+            <div className="content-column">
+              <div className="schedule-header">
+                <div className="schedule-image-container">
+                  <img src="/ic_dj.png" alt="Party" className="schedule-icon-img" />
+                </div>
+                <span className="label">二次会（希望者）</span>
+              </div>
+              <p className="schedule-detail">
+                引き続き同会場にて二次会を行います<br />
+                詳細は後日ご案内いたします
+              </p>
             </div>
           </div>
         </div>
